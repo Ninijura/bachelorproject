@@ -1,0 +1,86 @@
+\documentclass{article}
+
+% Imports
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+
+% Header
+\setlength{\headheight}{48.14pt} 
+\fancyhf{}
+\fancyhead[OL]{
+\includegraphics[scale=0.3]{AUlogo}
+\vspace{-0.5cm}
+}
+\fancyhead[OR]{
+\begin{tabular}{l}
+\textbf{\sc Bachelor Contract}       \\
+Date: \today              \\
+Page \thepage/\pageref{LastPage}\\
+~~
+\end{tabular}}
+
+\newcommand{\timeest}[1]{$\mathbf{#1}$}% used to write time estimations without excessive math-mode
+
+\begin{document}
+\pagestyle{fancy}
+
+% Meta-information about group/advisors/etc.
+\bgroup\def\arraystretch{1.5}
+\begin{table}[h]
+\begin{tabular}{ll}
+\textbf{Advisor}     & Bas Spitters     \\
+\textbf{Students}    & Kira Kutscher    \\
+\textbf{Languages}   & English          \\
+\textbf{Text tools}  & \LaTeX           \\
+\textbf{Other tools} & Coq              
+\end{tabular}
+\end{table}
+\egroup\vspace{-0.cm}
+
+\subsection*{Project Description}
+The project will focus on developing a framework for cryptographic proofs in Coq. We
+will investigate how much of the convenience found in tools like cryptHOL (for
+Isablle) or Easycrypt we can recreate within the more powerful logic of Coq. To this
+end we will first investigate existing tools (like the above mentioned) and libraries/tools
+for Coq that might be of use for our development (like xpl, FCF, coqhammer, and
+coqSMT).
+
+After the right basis is selected we will start selecting sample programs and trying
+to prove things about them in Coq. At this point we will decide in which direction
+the project is going to continue. 
+
+
+\subsection*{Provisional Table of Contents}
+\begin{itemize}
+    \item Abstract (10-20 lines)
+    \item Section 1: Introduction (1-2 pages)
+    \item Section 2: Theory and existing frameworks (4-8 pages)
+    \item Section 3: Our approach (6-12 pages)
+    \item Section 4: Our contribution (6-12 pages)
+    \item Section 5: Comparison to other work and ideas for future work (2-4 pages)
+    \item Section 6: Conclusion (1-2 pages)
+    \item Acknowledgements (3-5 lines)
+    \item References ($\frac{1}{2}$-1 page)
+    \item Appendix with programming code, tables, full proofs, etc. (5-20 pages)
+\end{itemize}
+
+\subsection*{Provisional Time Plan}
+
+\paragraph{First week of February (15 hours)}~\\\noindent
+Planning of activities, including the production of the Bachelor's contract.
+
+\paragraph{Rest of February and first half of March (\timeest{3\times 15} hours)}~\\\noindent
+Read literature and research the current state of the art tools for formal
+cryptographic proofs; rough draft of Section 2 in Bachelor's report.
+
+\paragraph{Rest of March until start of May (\timeest{2\times 15+8\times 30} hours)}~\\\noindent
+Work on the design and implementation of our contribution. Keep adding to the report
+along the way. 
+
+\paragraph{End of May and first half of June (\timeest{3\times 30} hours)}~\\\noindent
+Write the missing parts, put drafts together, make things consistent, proof reading.
+
+\end{document}
