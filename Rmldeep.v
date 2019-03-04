@@ -33,7 +33,7 @@ Definition M := continuation_monad_type.
 Definition expectation_monad_type (R : realType) := M R.
 Instance expectation_monad (R : realType) : Monad (expectation_monad_type R) := continuation_monad R.
 
-Instance option_monad : Monad option :=
+(*Instance option_monad : Monad option :=
   {
     unit := @Some ;
     bind _ _ x f :=
@@ -47,7 +47,7 @@ Proof.
   all: reflexivity.
 Qed.
 
-Check @None.
+Check @None.*)
 
 (* -------------------------------------------------------------------------------- *)
 
@@ -72,15 +72,17 @@ Fixpoint interpType (t : RMLtype) : Type :=
   | RMLfun t1 t2 => interpType t1 -> (M R (interpType t2))
   end. 
   
-Inductive RMLconst : Type :=
+Inductive RMLval : Type :=
 | bVal of bool
-| nVal of nat.
+| nVal of nat
+| fVal A B of interpType (RMLfun A B).
 
 Inductive Rml : Type :=
-| Var of nat                       (* variable identifier *)
-| Const of RMLconst               (* value of the constant *) 
-| Let_stm of nat & Rml & Rml       (* let string = Rml in Rml *)
-| If_stm of Rml & Rml & Rml        (* if bool then Rml else Rml *)
+| Var       of nat                 (* variable identifier *)
+| Const     of RMLval            (* value of the constant *) 
+| Let_stm   of nat & Rml & Rml     (* let string = Rml in Rml *)
+| If_stm    of Rml & Rml & Rml   (* if bool then Rml else Rml *)
+| Fun_stm   of nat & seq Rml 
 . 
 
 
@@ -104,7 +106,20 @@ Compute (fun x => *)
 Compute (Const (fun x => x 3 2))*)
 
 
-Fixpoint interp (x : Rml) env : M R RMLconst :=
+Fixpoint interp_helper args name (env : nat -> RMLval) : M R RMLval :=
+
+    let helper := fix helper args (acc : seq RMLval) :=
+                    match args with
+                    | nil => (*List.fold_left (fun partial_app value => unit (partial_app val))
+                                           acc *)
+                                           (unit (env name))
+                    | arg :: args' => bind arg (fun y => helper args' (y :: acc))
+                    end
+    in helper args nil.
+    
+                         
+
+Fixpoint interp {A} (x : Rml) env : M R RMLval :=
   match x with
   | Var y => unit (env y)
   | Const c => unit c
@@ -113,14 +128,23 @@ Fixpoint interp (x : Rml) env : M R RMLconst :=
                                         (fun y => if x == y
                                                then x'
                                                else env y))
-  (* | App_stm B f x => bind (interp f env) (fun (g : B -> A) => bind (interp x) (fun k => unit (g k)))*)
   | If_stm b m1 m2 => bind (interp b env)
-                          (fun (t : RMLconst) =>
+                          (fun (t : RMLval) =>
                              match t with
                              | bVal true => interp m1 env
                              | bVal false => interp m2 env
                              | _ => unit (bVal false)
                              end) 
+  | Fun_stm name args =>
+    (fix helper args (acc : seq RMLval) :=
+       match args with
+       | nil => List.fold_left (fun partial_app value => unit (partial_app val))
+                              acc 
+                              (unit (env name))
+       | arg :: args' => bind arg (fun y => helper args' (y :: acc))
+       end) args
+  (*| App_stm typ f v => bind (interp f env)
+                           (fun y => bind (interp v env) (fun v_interp =>  y v_interp))*)
   end.
 
 
@@ -129,7 +153,10 @@ Compute interp (If_stm (App_stm nat (Const (fun x => x > 10)) (Const 2)) (Const 
 Example test1 :
   interp (Let_stm 0 (Const (nVal 4)) (Var 0)) (fun x => bVal false) =
   interp (Const (nVal 4)) (fun x => bVal false).
-Proof. reflexivity. Qed. 
+Proof. reflexivity. Qed.
+
+
+Compute interp (Let_stm 0 (Const (nVal 4)) (Var 0)) (fun x => bVal false).
 
 (Const (fun e => 2) e)
 
