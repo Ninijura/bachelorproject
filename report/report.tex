@@ -1,4 +1,7 @@
-\documentclass{article}
+\documentclass[titlepage]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
 
 \title{Bachelorproject}
 \author{Kira Kutscher}
@@ -6,7 +9,123 @@
 
 \begin{document}
 \maketitle
+% -------------------------------------------------------------
+
+\newcommand\rml{$\mathcal{R}$\texttt{ml} }
+\newcommand\M{\texttt{M}}
+
+% -------------------------------------------------------------
+
 
 \section{Introduction}
+In an increasingly digitalised world it is important that we can be sure of the
+security of our systems. We have all heard of scandals due to breaches of security
+system like when Sony was hacked and almost 50.000 social security numbers stolen, or
+the leak of celebrity nudes from the iCloud that became widely known as ``the
+Fappening'' (both in 2014).
+
+Both Sony and Apple are huge companies and one would expect them to have their
+security set up so that this kind of faux-pas cannot happen. So why did they happen?
+
+The reason is that building proper security is hard; and proving it correct is even
+harder. Sometimes proofs omitted because \textit{ain't nobody got time for that}, and
+when they are done it's often manually, which is dangerously error prone and leads to
+great trust in protocols that are in reality unsafe.
+
+A possible way to make proofs of security more reliable and easier to conduct is to
+use a proof assistant. Some tools have been developed to this end, but the general
+problem is the difficulty of implementing proof tools that are free of bugs and
+inconsistencies. 
+
+\subsection{Cryptography in Coq}
+Enter Coq, easily the most trusted proof assistant in computer science. It was first
+developed in 1984 [Reference, Coquand \& Huet], based on the Calculus of
+Constructions, and since extended to the Calculus of Inductive Constructions
+[Reference, Christine Paulin].
+
+Coq has been under constant development and many bugs have been fixed since it was
+first published. It has been used for a number of large-scale projects in mathematics
+and computer science like a formalised proof of the four colour theorem
+[Reference!].
+
+Now, the idea should be obvious: We should use Coq in order to prove our
+cryptographic algorithms correct. This, however, is harder than it sounds. To see
+why, the reader should know a little bit about the inner workings of Coq. 
+
+The way propositions and proofs in Coq are represented is by types and terms:
+According to the Curry-Howard-correspondence [Reference] a logical system can be
+viewed as a programming language where propositions correspond to types and a proof
+of said proposition would take the shape of a term of said type. This representation
+and the requirement of reliability have introduced a few quirks into Coq which at
+times can make ones life hard; the ones that are important for the present
+development are that Coq requires all its programs to terminate with absolute
+certainty, and Coq does not know how to handle randomness. \\
+\\
+So that's where the catch is: No randomness. Many cryptographic algorithms rely on
+randomness in order to ensure security, so how would one work with them in a
+non-randomised setting?
+
+The answer is to encapsulate everything random or non-terminating in a
+sub-environment that can happily co-exist with Coq's termination checker. For this we
+use a monad, a mathematical construct which has shown to be of great use in
+purely functional programming. So by designing a language complete with
+non-termination and randomness and making its interpretation monadic, it is possible
+to use Coq in order to reason about it.
+
+A number of attempts of this have been made already [Reference CertiCrypt, xhl, ALEA,
+FCF], and those have helped guide the present development.\\
+\\
+The rest of this paper will be organised as follows. In Section \ref{sec:theory} we
+introduce the necessary theoretical background and discuss existing approaches, after
+which we will move on to describe our own approach (Section \ref{sec:approach}) and
+state our contribution (Section \ref{sec:contrib}). Lastly we will compare our
+development to the existing ones and present some possibilities of future work
+(Section \ref{sec:future}). The paper is then rounded off with the concluding Section
+  \ref{sec:conclusion}. 
+
+
+\section{Theory and existing frameworks}\label{sec:theory}
+\subsection{\rml}
+\rml stands for random monadic language and consists of the following constructs:
+\begin{align*}
+  exp ::= & x \vert \mathbb{N} \vert \mathbb{B} \vert \texttt{if } b \texttt{ then }
+  e_1 \texttt{ else } e_2 \vert \texttt{let } x = e_1 \texttt{ in } e_2 \vert
+  f\ e_1\ e_2\ \dots\ e_n
+\end{align*}
+
+The interpreted type of an \rml expression of type $\tau$ is $(\tau \to [0,1]) \to [0,1]$,
+that is, a measure on the type $\tau$. This will from now on be written as \M $\tau$.
+
+The interpretation of an expression $e$ in \rml is written as [$e$], which is the
+measure associated with $e$. If $e$ is of type \M $\beta$ and we have a property on
+values of type $\beta$, $Q$, we can compute the probability of [$e$]
+satisfying $Q$ by giving the characteristic function
+$\mathbb{I}_Q$ as argument to the monadic interpretation of $e$. 
+
+
+\subsection{\texttt{pwhile}}
+
+\begin{align*}
+  exp ::= & x \vert const \vert prp \texttt{ pred mem} \vert e_1\ e_2\\
+  cmd ::= & \texttt{abort} \vert \texttt{skip} \vert x := e \vert x\ \$= e \vert
+            \texttt{if } b \texttt{ then } c_1 \texttt{ else } c_2 \vert
+            \texttt{while } b \texttt{ do } c \vert c_1 ; c_2
+\end{align*}
+
+
+\section{Our approach}\label{sec:approach}
+
+
+\section{What we contributed}\label{sec:contrib}
+
+
+\section{Future work}\label{sec:future}
+
+
+\section{Conclusion}\label{sec:conclusion}
+
+
+\section{Acknowledgements}
+
 
 \end{document}
