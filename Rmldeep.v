@@ -6,7 +6,7 @@ From xhl Require Import pwhile.pwhile.
 From xhl Require Import inhabited notations.
 Require Import FunctionalExtensionality.
 
-Reserved Notation "x >>= f" (at level 40, left associativity).
+Reserved Notation "x >>= f" (at level 40, left associativity). 
 Class Monad (M : Type -> Type) :=
   {
     unit : forall {A}, A -> M A;
