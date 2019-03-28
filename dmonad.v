@@ -70,3 +70,4 @@ Proof. constructor => [T U x f|T m|T U V m f g] /=.
 + by apply/distr_eqP/dlet_dunit_id.
 + by apply/distr_eqP/dlet_dlet.
 Qed.
+

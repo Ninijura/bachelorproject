@@ -71,18 +71,19 @@ Fixpoint interpType (t : RMLtype) : Type :=
   | RMLbool => bool
   | RMLfun t1 t2 => interpType t1 -> (M R (interpType t2))
   end. 
-  
+
+
 Inductive RMLval : Type :=
 | bVal of bool
-| nVal of nat
-| fVal A of (RMLval -> (M R (interpType A))). 
+| nVal of nat.
+(* | fVal (A B : RMLtype) of RMLval -> (M R (RMLval)). (* But... RMLval should be the content of a monad. So RMLval should be a monadic value of distribution over whatever type is attached. *)   *)
 
 Inductive Rml (typ : RMLtype) : Type :=
 | Var         of nat                         (* variable identifier *)
-| Const       of RMLval                      (* value of the constant *) 
-| Let_stm {A} of nat & Rml A & Rml typ       (* let string = Rml in Rml *) 
+| Const       of RMLval                    (* value of the constant *) 
+| Let_stm {A} of nat & Rml A & Rml typ       (* let nat = Rml in Rml *) 
 | If_stm      of Rml RMLbool & Rml typ & Rml typ (* if bool then Rml else Rml *)
-| App_stm {A} of Rml (RMLfun typ) & Rml A
+(* | App_stm {A} of Rml (RMLfun A typ) & Rml A *)
 . 
 
 (* -------------------------------------------------------------------------------- *)
@@ -107,26 +108,28 @@ Fixpoint interp {A} (x : Rml A) env : M R RMLval :=
                              | bVal false => interp m2 env
                              | _ => unit (bVal false)
                              end) 
-  | App_stm _ f v => bind (interp f env)
-                          (fun y => bind (interp v env) (fun v_interp =>
+(*| App_stm B f v => bind (interp f env)
+                          (fun y => bind (interp v env) (fun v_interp  =>
                                                            match y with
-                                                           | fVal A  f' => f' v_interp
+                                                           | fVal B A f' => f' v_interp
                                                            | _ => unit (bVal false) 
-                                                           end ))
+                                                           end )) *)
   end.
 
 
 (* Compute interp (App_stm nat (Const (fun x => x + 10)) (Const 2)).
 Compute interp (If_stm (App_stm nat (Const (fun x => x > 10)) (Const 2)) (Const 3) (Const 2)).*)
 Example test1 :
-  interp (Let_stm 0 (Const (nVal 4)) (Var 0)) (fun x => bVal false) =
-  interp (Const (nVal 4)) (fun x => bVal false).
+  interp (Let_stm RMLnat 0 (Const RMLnat (nVal 4)) (Var RMLnat 0)) empty_env =
+  interp (Const RMLnat (nVal 4)) empty_env.
 Proof. reflexivity. Qed.
 
 
-Compute interp (Let_stm 0 (Const (nVal 4)) (Var 0)) (fun x => bVal false).
+Compute interp (Let_stm RMLnat 0 (Const RMLnat (nVal 4)) (Var RMLnat 0)) empty_env.
 
-(Const (fun e => 2) e)
+(* try to identify the corresponding functions between xhl and the ALEA semantics. *)
+
+
 
 Definition punit {R} {A} := @unit (expectation_monad_type R) (expectation_monad R) A.
 Definition pbind {R} {A B} := @bind (expectation_monad_type R) (expectation_monad R) A B.
