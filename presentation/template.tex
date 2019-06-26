@@ -1,0 +1,150 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Focus Beamer Presentation
+% LaTeX Template
+% Version 1.0 (8/8/18)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Pasquale Africa (https://github.com/elauksap/focus-beamertheme) with modifications by 
+% Vel (vel@LaTeXTemplates.com)
+%
+% Template license:
+% GNU GPL v3.0 License
+%
+% Important note:
+% The bibliography/references need to be compiled with bibtex.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\usetheme{focus} % Use the Focus theme supplied with the template
+% Add option [numbering=none] to disable the footer progress bar
+% Add option [numbering=fullbar] to show the footer progress bar as always full with a slide count
+
+% Uncomment to enable the ice-blue theme 
+%\definecolor{main}{RGB}{92, 138, 168}
+%\definecolor{background}{RGB}{240, 247, 255}
+
+%------------------------------------------------
+
+\usepackage{booktabs} % Required for better table rules
+\usepackage{tikz}
+%\usepackage[uft-8]{inputenc}
+
+%----------------------------------------------------------------------------------------
+%	 TITLE SLIDE
+%----------------------------------------------------------------------------------------
+
+\title{Exploring interpretations \\ of probabilistic programs \\ using measure theory in Coq}
+
+%\subtitle{}
+
+\author{Kira Kutscher \& Lasse Letager Hansen}
+
+%\institute{Aarhus University}
+
+\date{28th of June, 2019}
+
+%------------------------------------------------
+
+\begin{document}
+\newcommand\rml{$\mathcal{R}$\texttt{ml}} % for a pretty version of "Rml"
+\maketitle
+
+%------------------------------------------------
+
+\begin{frame}{Motivation}
+  Probabilistic algorithms are widely used and important...\\
+    \pause
+    ...but much less widely proven correct.\\
+    \bigskip
+    \pause
+    We aim towards:
+    \pause
+    \begin{itemize}
+        \item Mechanising proofs
+      \pause
+        \item Making proofs reliable
+      \pause
+        \item Making the process of correctness proofs accessible. 
+    \end{itemize}
+    \pause
+    \bigskip
+    \medskip
+    Did we achieve this?
+    \pause
+    \begin{flushright}
+      No... but we made a step towards it. 
+    \end{flushright}
+\end{frame}
+
+%------------------------------------------------
+
+\section{The shoulders of giants \\ (previous work)}
+
+%------------------------------------------------
+
+\begin{frame}{Two languages}
+  \begin{columns}
+    \column{0.5\textwidth}
+    \LARGE{\rml}\tiny{\cite{rml-paper}}
+    \hrule
+    \column{0.5\textwidth}
+    \LARGE{\texttt{pwhile}}\tiny{\cite{easy-crypt}}
+    \vspace{-0.5em}
+    \hrule
+  \end{columns}
+  \pause
+  \begin{columns}
+    \column{0.5\textwidth}
+    \begin{itemize}
+        \item functional
+        \item designed as part of the ALEA library
+        \item no implementation publicly available
+    \end{itemize}
+    \pause
+    \column{0.5\textwidth}
+    \begin{itemize}
+        \item imperative
+        \item designed as the definition language in \textsc{EasyCrypt}
+        \item implemented in Coq in the \texttt{xhl} development by Pierre-Yves
+      Strub
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------
+
+\begin{frame}{\rml}
+  
+\begin{align*}
+  exp~::=&~ ~ x~\vert ~ c~\vert ~ \texttt{if }b\texttt{ then }e_1\texttt{ else } e_2~\\
+  &\vert ~ \texttt{let }x = e_1 \texttt{ in }e_2~\vert ~ f~e_1~\dots~e_n
+\end{align*}
+\end{frame}
+
+% ------------------------------------------------
+
+\begin{frame}{\texttt{pwhile}}
+  
+\begin{align*}
+  exp ::=~& x ~\vert ~ const ~\vert ~ \texttt{prp ($p$ : pred mem)}~\vert ~ e_1\ e_2\\
+  cmd ::=~& \texttt{abort} ~\vert ~ \texttt{skip} ~\vert ~ x := e ~\vert ~ x\ \$\hspace{-0.25em}= e\\
+  \vert ~ & \texttt{if } b \texttt{ then } c_1 \texttt{ else } c_2 ~\vert ~
+            \texttt{while } b \texttt{ do } c ~\vert ~ c_1 ; c_2
+\end{align*}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\bibliographystyle{apalike}
+\bibliography{sources}
+
+\end{document}

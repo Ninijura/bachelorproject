@@ -4,6 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[margin=1in]{geometry}
 \usepackage{lastpage}
+\usepackage[hidelinks]{hyperref}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
 
@@ -26,6 +27,8 @@ Page \thepage/\pageref{LastPage}\\
 
 \begin{document}
 \pagestyle{fancy}
+\newcommand\rml{$\mathcal{R}$\texttt{ml} }
+\newcommand\rmlno{$\mathcal{R}$\texttt{ml}}
 
 % Meta-information about group/advisors/etc.
 \bgroup\def\arraystretch{1.5}
@@ -41,25 +44,36 @@ Page \thepage/\pageref{LastPage}\\
 \egroup\vspace{-0.cm}
 
 \subsection*{Project Description}
-The project will focus on developing a framework for cryptographic proofs in Coq. We
-will investigate how much of the convenience found in tools like cryptHOL (for
-Isablle) or Easycrypt we can recreate within the more powerful logic of Coq. To this
-end we will first investigate existing tools (like the above mentioned) and libraries/tools
-for Coq that might be of use for our development (like xpl, FCF, coqhammer, and
-coqSMT).
+We selected the basis for our work to consist of \rmlno, presented by Audebaud and
+Paulin-Mohring in 2009 (``Proofs of randomized algorithms in Coq'') as well as the
+\texttt{xhl} development\footnote{\url{https://github.com/strub/xhl}}, which is a Coq
+implementation of \texttt{pwhile}, the probabilistic imperative language used in
+EasyCrypt.
 
-After the right basis is selected we will start selecting sample programs and trying
-to prove things about them in Coq. At this point we will decide in which direction
-the project is going to continue. 
+Our project explores similarities as well as differences between \rml and
+\texttt{pwhile} and understanding their respective interpretations. Our aim for this
+project is to understand how we can translate a program, $P$, written in
+\texttt{pwhile} to a semantically equivalent one in \rml and show that the results of
+interpreting $P$ directly will lead to the same result as interpreting the \rmlno
+-translation of $P$. 
 
+Along the way we will attempt to implement an interpretation of \rml in Coq. If we
+are left with more time on our hands before the completion of this project, we will
+also attempt a formalisation of the translation of \texttt{pwhile} to our
+implementation of \rml. 
+\\ \\
+The goal of this project is to present some different approaches to the construction
+and interpretation of probabilistic programs and show their equivalence. The reader
+should be left with an actionable understanding of the domain theoretic approach,
+enabling them to start working with the basic concepts of the topic. 
 
 \subsection*{Provisional Table of Contents}
 \begin{itemize}
     \item Abstract (10-20 lines)
     \item Section 1: Introduction (1-2 pages)
-    \item Section 2: Theory and existing frameworks (4-8 pages)
+    \item Section 2: Theory and existing frameworks (6-12 pages)
     \item Section 3: Our approach (6-12 pages)
-    \item Section 4: Our contribution (6-12 pages)
+    \item Section 4: Our contribution (6-10 pages)
     \item Section 5: Comparison to other work and ideas for future work (2-4 pages)
     \item Section 6: Conclusion (1-2 pages)
     \item Acknowledgements (3-5 lines)
@@ -82,5 +96,20 @@ along the way.
 
 \paragraph{End of May and first half of June (\timeest{3\times 30} hours)}~\\\noindent
 Write the missing parts, put drafts together, make things consistent, proof reading.
+
+\paragraph{31st of May}~\\\noindent
+Have a draft of the section about our own implementation. It should contain all of
+the structure needed, but does not have to be clean yet.
+
+\paragraph{3rd of June}~\\\noindent
+The sections on theory as well as our own implementation should be complete modulo
+proof reading.
+
+\paragraph{10th of June}~\\\noindent
+Sections 3 and 5 should be done modulo proof reading.
+
+\paragraph{12th of June}~\\\noindent
+Introduction, conclusion and abstracts (one in Danish, one in English) should be in
+place. The rest of the time is spent on proof reading. 
 
 \end{document}
