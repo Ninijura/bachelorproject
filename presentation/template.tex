@@ -35,7 +35,7 @@
 %------------------------------------------------
 
 \usepackage{booktabs} % Required for better table rules
-\usepackage{tikz}
+\usepackage{tikz-cd}
 %\usepackage[uft-8]{inputenc}
 
 %----------------------------------------------------------------------------------------
@@ -57,6 +57,20 @@
 \begin{document}
 \newcommand\rml{$\mathcal{R}$\texttt{ml}} % for a pretty version of "Rml"
 \maketitle
+
+%------------------------------------------------
+
+\begin{frame}{This talk}
+  We will...
+  \pause
+  \begin{itemize}
+      \item be motivated
+    \pause
+      \item theorise
+    \pause
+      \item 
+  \end{itemize}
+\end{frame}
 
 %------------------------------------------------
 
@@ -128,6 +142,8 @@
   exp~::=&~ ~ x~\vert ~ c~\vert ~ \texttt{if }b\texttt{ then }e_1\texttt{ else } e_2~\\
   &\vert ~ \texttt{let }x = e_1 \texttt{ in }e_2~\vert ~ f~e_1~\dots~e_n
 \end{align*}
+
+Probabilistic functions are \texttt{flip} and \texttt{random $n$}. 
 \end{frame}
 
 % ------------------------------------------------
@@ -140,6 +156,60 @@
   \vert ~ & \texttt{if } b \texttt{ then } c_1 \texttt{ else } c_2 ~\vert ~
             \texttt{while } b \texttt{ do } c ~\vert ~ c_1 ; c_2
 \end{align*}
+Probabilistic functions are \texttt{flip} and \texttt{random $n$}. 
+\end{frame}
+
+% ------------------------------------------------
+
+\begin{frame}{Combining both approaches}
+  \begin{center}
+    \begin{tikzcd}
+      \texttt{pwhile} \arrow[rr] \arrow[d]
+      \pgfmatrixnextcell \pgfmatrixnextcell  \omega\text{-cpos} \\
+      \text{\rml} \arrow[rru]    
+    \end{tikzcd}
+  \end{center}
+\end{frame}
+
+% ------------------------------------------------
+
+\section{The most practical solution\\
+is a good theory}
+
+% ------------------------------------------------
+
+\begin{frame}{Probabilistic definitions}
+
+\end{frame}
+
+% ------------------------------------------------
+
+\begin{frame}{The measure monad}
+
+\end{frame}
+
+% ------------------------------------------------
+
+\begin{frame}{Fixpoint iterations}
+
+\end{frame}
+
+% ------------------------------------------------
+
+\begin{frame}{Measures are $\omega$-cpos}
+
+\end{frame}
+
+% ------------------------------------------------
+
+\begin{frame}{Semantics of \rml}
+  
+\end{frame}
+
+% ------------------------------------------------
+
+\begin{frame}{Typing of \rml}
+
 \end{frame}
 
 %----------------------------------------------------------------------------------------
