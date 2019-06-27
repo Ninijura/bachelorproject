@@ -188,7 +188,18 @@ is a [bit of] good theory}
 % ------------------------------------------------
 
 \begin{frame}{Probabilistic definitions}
-  
+  A measure is a function on a set that:
+  \begin{itemize}
+      \item has $\mathbb{R}^+$ as its codomain;
+      \item has value 0 for the empty set
+      \item is countably additive
+  \end{itemize}
+  \bigskip
+  \pause
+  A measure on type $\tau$ if $f~:~\tau\to\mathbb{R}^+$: $\int f~d\mu$ \\
+  \bigskip
+  \pause
+  The type of a measure on $\tau$ is $(\tau\to\mathbb{R}^+)\to\mathbb{R}^+$
 \end{frame}
 
 % ------------------------------------------------
@@ -340,14 +351,35 @@ is a [bit of] good theory}
 
 % ------------------------------------------------
 
-\begin{frame}{Our development}
-
+\begin{frame}{Our work}
+  We...\pause
+  \begin{itemize}
+      \item developed theory about how to translate \texttt{pwhile} to \rml;
+    \pause
+      \item implemented an abstract syntax for \rml;
+    \pause
+      \item implemented a type-checker for \rml; and
+    \pause
+      \item implemented an interpretation of \rml. 
+  \end{itemize}
 \end{frame}
 
 % ------------------------------------------------
 
 \begin{frame}{Conclusion}
-
+  \begin{itemize}
+      \item We have a way of mathematically interpreting general recursion and
+    probabilistic definitions in Coq, using a monadic structure.
+    \pause
+      \item We can use this in order to design languages that can be used to write
+    probabilistic programs in.
+    \pause
+      \item We can use Coq to reason about the interpretation of probabilistic
+    programs.
+    \pause
+      \item We have related two such languages to each other, showing that the
+    semantics of one of them is a subset of that of the other. 
+  \end{itemize}
 \end{frame}
 
 %----------------------------------------------------------------------------------------
