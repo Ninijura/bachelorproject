@@ -64,11 +64,17 @@
   We will...
   \pause
   \begin{itemize}
-      \item be motivated
-    \pause
-      \item theorise
-    \pause
-      \item 
+      \item be motivated by cryptography;
+  \pause
+      \item look at some previous work presenting the probabilistic languages \rml\
+    and \texttt{pwhile};
+  \pause
+      \item study the theory of how to interpret probabilistic definitions as well as
+    general recursion in the deterministic and certainly terminating Coq; 
+  \pause
+    \item see how this theory is employed in the semantics of \rml\ and \texttt{pwhile};
+  \pause
+    \item get a quick overview of how we used this in our project. 
   \end{itemize}
 \end{frame}
 
@@ -101,7 +107,8 @@
 
 %------------------------------------------------
 
-\section{The shoulders of giants \\ (previous work)}
+\section{The shoulders of giants}
+%Many people. Most famously Newton
 
 %------------------------------------------------
 
@@ -174,31 +181,106 @@ Probabilistic functions are \texttt{flip} and \texttt{random $n$}.
 % ------------------------------------------------
 
 \section{The most practical solution\\
-is a good theory}
+is a [bit of] good theory}
+%Albert Einstein
 
 % ------------------------------------------------
 
 \begin{frame}{Probabilistic definitions}
-
+  
 \end{frame}
 
 % ------------------------------------------------
 
 \begin{frame}{The measure monad}
-
+  \begin{align*}
+    \texttt{unit} & :~ \tau\to\texttt{M}\tau\\
+                  & = \texttt{fun }(x:\tau)\Rightarrow
+                    \texttt{fun }(f~:~\tau\to[0,1])\Rightarrow f~x\\
+    \\
+    \texttt{bind} & :~\texttt{M}\tau\to(\tau\to\texttt{M}\sigma)\to\texttt{M}\sigma\\
+                  & = \texttt{fun }(\mu~:~\texttt{M}\tau)\Rightarrow \texttt{fun }
+                    (g~:~\tau\to\texttt{M}\sigma) \Rightarrow\\
+                  & ~~~~~\texttt{fun }(f~:~\sigma\to[0,1])\Rightarrow \mu~ (\texttt{fun
+                    }(x~:~\tau)\Rightarrow M~x~f)
+  \end{align*}
 \end{frame}
 
 % ------------------------------------------------
 
 \begin{frame}{Fixpoint iterations}
+  $$\textit{fac}(n) := \texttt{ if } n = 0 \texttt{ then }1\texttt{ else } n\cdot
+  \textit{fac}(n-1)$$
+  \pause
+  $$F(g(n)):=\texttt{ if }n=0\texttt{ then }1\texttt{ else }n\cdot g(n-1)$$
+  \pause
+  \begin{align*}
+    \hspace{0.6em}
+    F_1(n) = F(F_0(n)) & = \begin{cases}
+      1~~~\text{if }n\text{ is 0}\\
+      0~~~\text{otherwise}
+    \end{cases}
+  \end{align*}
+  \pause
+  \vspace{-1em}
+  \begin{align*}
+    F_2(n) = F(F(F_0(n))) & = \begin{cases}
+      1~~~\text{if }n\text{ is 0 or 1}\\
+      0~~~\text{otherwise}
+    \end{cases}
+  \end{align*}
+  \pause
+  \vspace{-1em}
+  \begin{align*}
+    F_3(n) = F(F(F(F_0(n)))) & = \begin{cases}
+      1~~~\text{if }n\text{ is 0 or 1}\\
+      2~~~\text{if }n\text{ is 2}\\
+      0~~~\text{otherwise}\hspace{2em}
+    \end{cases}
+  \end{align*}
+  \pause
+  \vspace{-1em}
+  \begin{align*}
+    \vdots \hspace{5em} \vdots \hspace{5em} \hspace{3em}\vdots\hspace{5em}
+  \end{align*}
+\end{frame}
 
+% ------------------------------------------------
+
+\begin{frame}{$\omega$-cpos}
+  \begin{align*}
+    X & \text{ : a set}\\
+    \leq & \text{ : reflexivie, transitive, antisymmetric}\\
+    0_X &\text{ : } \forall x \in X : 0 \leq x\\
+    \texttt{lub}_X &~~\text{ for monotonic sequences}\\
+  \end{align*}
 \end{frame}
 
 % ------------------------------------------------
 
 \begin{frame}{Measures are $\omega$-cpos}
-
+  \begin{align*}
+    (\tau\to[0,1])\to[0,1]
+  \end{align*}
+  \pause
+  \begin{center}
+    is an $\omega$-cpo, since the definition can be extended to function spaces: 
+  \end{center}
+  \pause
+  \begin{align*}
+    f\leq_{A \to B} g \Leftrightarrow \forall x: f(x) \leq_B g(x)
+    & ~~~\textit{(pointwise order)}\\
+    0_{A\to B} := f(x) = 0_B
+    & ~~~\textit{(least element)}\\
+    \texttt{lub}_{A\to B} f_n := \texttt{lub}_B(f_n(x))
+    & ~~~\textit{(least upper bound operation)}
+  \end{align*}
 \end{frame}
+
+% ------------------------------------------------
+
+\section{A language is not just words}
+%Noam Chomsky
 
 % ------------------------------------------------
 
@@ -208,7 +290,18 @@ is a good theory}
 
 % ------------------------------------------------
 
-\begin{frame}{Typing of \rml}
+\begin{frame}{Semantics of \texttt{pwhile}}
+
+\end{frame}
+
+% ------------------------------------------------
+
+\section{Implementation beats oration}
+%Aesop
+
+% ------------------------------------------------
+
+\begin{frame}{Our development}
 
 \end{frame}
 
