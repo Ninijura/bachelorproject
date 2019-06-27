@@ -36,6 +36,7 @@
 
 \usepackage{booktabs} % Required for better table rules
 \usepackage{tikz-cd}
+\usepackage{stmaryrd} % For interpretation bracket (and maybe other stuff)
 %\usepackage[uft-8]{inputenc}
 
 %----------------------------------------------------------------------------------------
@@ -285,13 +286,51 @@ is a [bit of] good theory}
 % ------------------------------------------------
 
 \begin{frame}{Semantics of \rml}
-  
+  \begin{align*}
+    v
+    &\mapsto \texttt{unit }v ~~ (v \text{ variable or constant})\\ \\
+    \texttt{let }x=a\texttt{ in } b
+    &\mapsto \texttt{bind }[a]~(\texttt{fun } x \Rightarrow [b])\\ \\
+    f~a_1\dots a_n
+    &\mapsto \texttt{bind }[a_1]~(\texttt{fun } x_1 \Rightarrow \dots \texttt{bind }[a_n]
+    \\ 
+    &\hspace{2em} (\texttt{fun } x_n \Rightarrow [f]~x_1 \dots x_n) \dots ) \\\\
+    \texttt{if $b$ then $a_1$ else $a_2$}
+    &\mapsto  \texttt{bind } [b]~(\texttt{fun } x~:~\texttt{bool}) \Rightarrow\\
+    &\hspace{2em} (\texttt{if $x$ then $[a_n]$ else $[a_2]$})
+  \end{align*}
 \end{frame}
 
 % ------------------------------------------------
 
 \begin{frame}{Semantics of \texttt{pwhile}}
-
+  \begin{align*}
+    \llbracket \texttt{abort} \rrbracket~m
+    &\mapsto \texttt{dnull}\\
+    \llbracket \texttt{skip} \rrbracket~m
+    &\mapsto \texttt{unit }m\\
+    \llbracket i;~c \rrbracket~m
+    &\mapsto \texttt{bind }(\llbracket i \rrbracket~m) ~
+      \llbracket c \rrbracket \\
+    \llbracket x := e \rrbracket~m
+    &\mapsto \texttt{unit }m [\llbracket e \rrbracket~m / x]\\
+    \llbracket x~\$= d \rrbracket~m
+    &\mapsto \texttt{bind } (\llbracket d \rrbracket~m) ~(\lambda v.\texttt{unit }m[v/x])
+    \\ 
+    \hspace{-1.5em}\llbracket \texttt{if $e$ then $c_1$ else $c_2$} \rrbracket~m
+    &\mapsto \begin{cases} \llbracket c_1 \rrbracket~m\text{ if} \llbracket e
+           \rrbracket~m = \texttt{true}\\ 
+           \llbracket c_2 \rrbracket~m\text{ if} \llbracket e \rrbracket~m =
+           \texttt{false}\\ 
+         \end{cases}\\
+    \llbracket \texttt{while $e$ do $c$} \rrbracket~m
+    &\mapsto \lambda f.\text{sup}~(\lambda n. \llbracket [\texttt{while $e$ do }c]_n
+      \rrbracket)~ m~f)\\
+    & ~~~~~~ \text{where}\\
+    & ~~~~~~ [\texttt{while $e$ do }c]_0 ~~~ = \texttt{skip}\\
+    & ~~~~~~ [\texttt{while $e$ do }c]_{n+1} = \texttt{if $e$ then $c$;} \\
+    & \hspace{125pt}[\texttt{while $e$ do }c]_n
+  \end{align*}
 \end{frame}
 
 % ------------------------------------------------
@@ -302,6 +341,12 @@ is a [bit of] good theory}
 % ------------------------------------------------
 
 \begin{frame}{Our development}
+
+\end{frame}
+
+% ------------------------------------------------
+
+\begin{frame}{Conclusion}
 
 \end{frame}
 
